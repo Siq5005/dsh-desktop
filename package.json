@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "DSH Desktop: Electron shell composed as a DeepSeek Harness bundle (plan C, mac-first, Phase 0)",
   "author": "DSH Desktop Contributors",
+  "license": "MIT",
   "productName": "DSH Desktop",
   "type": "module",
   "main": "src/main.cjs",

@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/macOS-优先-4D6BFE?style=flat-square" alt="macOS">
   <img src="https://img.shields.io/badge/Windows-未验证-9CA3AF?style=flat-square" alt="Windows unverified">
   <img src="https://img.shields.io/badge/version-0.1.0-2EA44F?style=flat-square" alt="version">
+  <img src="https://img.shields.io/badge/license-MIT-2EA44F?style=flat-square" alt="MIT License">
 </p>
 
 DSH Desktop 把 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的 Host 服务、插件系统和本地 Web UI 装进原生 Electron 窗口。官方 Harness 以固定版本依赖（`@deepseek-ai/*` `0.1.0-rc.6`）原样运行；Desktop 负责窗口、托盘、工作 profile 切换和打包发布，并通过官方插件机制与 Harness 组合。
@@ -130,4 +131,4 @@ DSH_HOME=/tmp/dsh-desktop-gui DSH_DESKTOP_HEADLESS=1 \
 ## License / 非官方声明
 
 - DeepSeek 是 DeepSeek AI 的商标；DSH Desktop 是独立的社区项目，与 DeepSeek 官方没有隶属关系，也未获得其背书。
-- 本项目当前未附加开源许可证；如需使用或分发，请先补充 `LICENSE` 文件。
+- 本项目遵循 [MIT License](LICENSE)。
