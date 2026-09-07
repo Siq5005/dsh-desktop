@@ -8,3 +8,5 @@ allowBuilds:
 
 nodeLinker: hoisted
 autoInstallPeers: true
+patchedDependencies:
+  '@deepseek-ai/dsh-sandbox@0.1.2-rc.1': patches/@deepseek-ai__dsh-sandbox@0.1.2-rc.1.patch
