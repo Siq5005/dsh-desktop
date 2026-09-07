@@ -6,7 +6,7 @@ import { composeEntries } from '@deepseek-ai/dsh-app-boot'
 import { composeProfile } from '../src/host.js'
 
 const PROFILE_NAME = process.env.DSH_DESKTOP_PROFILE ?? 'desktop'
-const { profile, patches } = composeProfile(PROFILE_NAME)
+const { profile, patches } = await composeProfile(PROFILE_NAME)
 const rows = composeEntries([patches])
 
 console.log('profile:', profile.name, '->', profile.dir)

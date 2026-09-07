@@ -38,14 +38,17 @@ function homePatchPath() {
   return join(resolveDshHome(), 'cordis.patch.yml')
 }
 
-function prepareProfile(name) {
+async function prepareProfile(name) {
   const home = resolveDshHome()
   const dir = resolveProfileDir(name, home)
   if (!existsSync(join(dir, 'package.json'))) {
     initProfile(dir, DESKTOP_BUNDLES)
   }
-  healProfilesModuleFallback(INSTALL_ANCHOR, home)
   const profile = loadProfile(BIN_NAME, name, INSTALL_ANCHOR, home)
+  // dsh-app-boot >= 0.1.2-rc.1: healProfilesModuleFallback takes an options
+  // object ({ installAnchor, profile, home }) and is async; the loaded profile
+  // also triggers profile-local module-fallback healing.
+  await healProfilesModuleFallback({ installAnchor: INSTALL_ANCHOR, profile, home })
   writeFileSync(join(profile.dir, PROFILE_ROOT_FILENAME), PROFILE_ROOT_CONFIG)
   return profile
 }
@@ -53,8 +56,8 @@ function prepareProfile(name) {
 /** Compose the desktop profile's patch stack with the desktop layer spliced
  * after @deepseek-ai/dsh-web-app. Never persisted into dsh.profile.bundles.
  */
-export function composeProfile(name) {
-  const profile = prepareProfile(name)
+export async function composeProfile(name) {
+  const profile = await prepareProfile(name)
   const desktopPatches = loadOverlayPatches(BIN_NAME, DESKTOP_PATCH_PATH) ?? []
   const bundlePatches = []
   let desktopLayerInserted = false
@@ -104,7 +107,7 @@ export function composeProfile(name) {
  */
 export async function bootHost({ profileName = 'desktop', desktopRuntime, exit = () => {}, onPrepare, desktopProfiles } = {}) {
   const environment = loadLayeredEnv(BIN_NAME, process.cwd())
-  const composed = composeProfile(profileName)
+  const composed = await composeProfile(profileName)
   const patches = structuredClone(composed.patches)
   const rootConfig = join(composed.profile.dir, PROFILE_ROOT_FILENAME)
   // Bare entry names (including this desktop package) resolve beside the profile
@@ -134,7 +137,7 @@ export async function bootHost({ profileName = 'desktop', desktopRuntime, exit =
           })
         }
         provideCmdline(hostCtx, {
-          args: ['--host', '127.0.0.1', '--port', '0'],
+          args: ['--host', '127.0.0.1', '--port', '0', '--no-open'],
           exit,
         })
       },

@@ -3,7 +3,7 @@
 export const name = 'desktop-shell'
 
 /** Services required before the shell can register its native window. */
-export const inject = ['webServer', 'webRuntime', 'appExit', 'settings']
+export const inject = ['webServer', 'webRuntime', 'appExit', 'settings', 'connection']
 
 export function apply(ctx, config) {
   const runtime = ctx.get('desktopRuntime')
@@ -23,7 +23,13 @@ export function apply(ctx, config) {
   }
 
   const { mode = 'compatibility', width = 1280, height = 840, minWidth = 900, minHeight = 640 } = config ?? {}
-  const url = `http://127.0.0.1:${ctx.webServer.port}/?dsh-desktop-mode=${encodeURIComponent(mode)}`
+  // dsh-app-boot >= 0.1.2-rc.1 requires the launch token on the served root.
+  // authenticatedUrl() rewrites to clean `/` and appends ?token=…, so the
+  // desktop mode marker is re-appended afterwards (never overwritten by it).
+  const origin = `http://127.0.0.1:${ctx.webServer.port}`
+  const root = ctx.connection.authenticatedUrl(origin)
+  const marker = `dsh-desktop-mode=${encodeURIComponent(mode)}`
+  const url = `${root}${root.includes('?') ? '&' : '?'}${marker}`
   const profiles = ctx.get('desktopProfiles')
 
   ctx.effect(() => runtime.schedule({
