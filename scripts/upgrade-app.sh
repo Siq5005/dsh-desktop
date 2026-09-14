@@ -22,9 +22,20 @@ APP_PATH="${APP_PATH:-/Applications/DSH Desktop.app}"
 APP="$APP_PATH/Contents/Resources/app"
 BK="${DSH_UPGRADE_BACKUP:-$HOME/dsh-upgrade/backup-app}"
 
-# 0. 决不允许在 app 运行时替换
-if pgrep -f "DSH Desktop.app/Contents/MacOS/DSH Desktop" >/dev/null 2>&1; then
+# 0. 决不允许在 app 运行时替换。
+# 注意：macOS 上 `pgrep -f "DSH Desktop.app/Contents/MacOS/DSH Desktop"` 在本机实测
+# **匹配不到 Electron 主进程**（ps 能看到 PID，pgrep 却空手而归），而 Helper 进程
+# 反而能被 `pgrep -f "MacOS/DSH Desktop"` 匹配。只靠单一 pgrep 会漏检并在 app 运行时
+# 直接替换 bundle——因此这里用 ps 全文匹配主进程，再用 Helper 兜底，两者任一命中即拒绝。
+app_running() {
+  ps -Ao args= 2>/dev/null | grep -q "DSH Desktop\.app/Contents/MacOS/DSH Desktop" && return 0
+  pgrep -f "DSH Desktop Helper" >/dev/null 2>&1 && return 0
+  return 1
+}
+
+if app_running; then
   echo "ERROR: DSH Desktop 仍在运行。请先在 GUI 中退出 (Cmd+Q), 再重跑本脚本。" >&2
+  echo "       (检测方式: ps 全文匹配主进程 + pgrep 匹配 Helper 进程)" >&2
   exit 1
 fi
 
