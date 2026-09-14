@@ -219,10 +219,9 @@
     "@deepseek-ai/dsh-workflow": "^0.1.5-rc.2",
     "@deepseek-ai/dsh-workflow-worker-thread": "^0.1.5-rc.2",
     "@deepseek-ai/dsh-workspace": "^0.1.5-rc.2",
-    "@deepseek-ai/node-addon-landlock-run": "^0.1.1",
     "@deepseek-ai/schemastery": "^3.18.2",
-    "node-addon-require-builtin": "^0.1.5",
     "clsx": "^2.1.1",
+    "node-addon-require-builtin": "^0.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
