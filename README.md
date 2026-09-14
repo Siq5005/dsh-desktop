@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/license-MIT-2EA44F?style=flat-square" alt="MIT License">
 </p>
 
-DSH Desktop 把 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的 Host 服务、插件系统和本地 Web UI 装进原生 Electron 窗口。官方 Harness 以固定版本依赖（`@deepseek-ai/*` `0.1.0-rc.6`）原样运行；Desktop 负责窗口、托盘、工作 profile 切换和打包发布，并通过官方插件机制与 Harness 组合。
+DSH Desktop 把 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的 Host 服务、插件系统和本地 Web UI 装进原生 Electron 窗口。官方 Harness 以固定版本依赖（`@deepseek-ai/*` `0.1.5-rc.2`）原样运行；Desktop 负责窗口、托盘、工作 profile 切换和打包发布，并通过官方插件机制与 Harness 组合。
 
 ## 核心理念
 
@@ -118,7 +118,7 @@ DSH_HOME=/tmp/dsh-desktop-gui DSH_DESKTOP_HEADLESS=1 \
 
 ## 与官方项目的关系
 
-本项目基于 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) 构建，核心的 agent、模型、工具、会话、Web UI 与插件生态均来自官方（以 `@deepseek-ai/*` `0.1.0-rc.6` 固定版本依赖引入，不 fork 上游源码）。本项目只负责桌面封装：窗口、托盘、profile 切换与打包发布。
+本项目基于 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) 构建，核心的 agent、模型、工具、会话、Web UI 与插件生态均来自官方（以 `@deepseek-ai/*` `0.1.5-rc.2` 固定版本依赖引入，不 fork 上游源码）。本项目只负责桌面封装：窗口、托盘、profile 切换与打包发布。
 
 如需在命令行运行 Harness，或参与核心功能开发，请优先查看官方仓库。
 
